@@ -1,0 +1,57 @@
+
+# Amazon software update
+
+mount /mnt/usb 
+cp Update_kindle_3.3_B008.bin /mnt/usb/
+sudo umount /mnt/usb/
+sudo eject /dev/sdb
+
+# http://www.mobileread.com/forums/showthread.php?t=88004
+
+# update
+
+unzip kindle-jailbreak-0.10.N.zip 
+vi README.txt 
+mount /mnt/usb 
+cp update_jailbreak_0.10.N_k3w-3.2.1_install.bin /mnt/usb/
+sudo umount /mnt/usb/
+sudo eject /dev/sdb
+
+# update
+
+sudo eject /dev/sdb
+unzip kindle-usbnetwork-0.35.N.zip 
+df
+mount /mnt/usb 
+cp update_usbnetwork_0.35.N_k3w_install.bin /mnt/usb/
+umount /mnt/usb 
+sudo eject /dev/sdb
+
+# update
+
+mount /mnt/usb 
+echo > /mnt/usb/ENABLE_DIAGS
+umount /mnt/usb 
+sudo eject /dev/sdb
+
+# restart
+
+mount /mnt/usb 
+cat /mnt/usb/diagnostic_logs/device_info.txt 
+
+# start usb network
+
+# del get input box
+
+;debugOn
+~usbNetwork
+
+$ sudo ifconfig usb0 192.168.2.1
+$ ssh root@192.168.2.2
+
+# install launchpad
+# http://www.mobileread.com/forums/showthread.php?t=97636
+
+# install myts
+# http://www.mobileread.com/forums/showthread.php?t=154500
+
