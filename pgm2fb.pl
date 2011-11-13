@@ -26,12 +26,20 @@ while(my $size = read($in, my $px, $w)) {
 
 	foreach my $x ( 0 .. 824 / 2 - 1 ) {
 
-		my ($a,$b) = unpack('CC', substr($px,$x * 2 + $o_x,2));
-		print pack( 'C', (
-			( $a & 0xf0 )
-			|
-			( ( $b & 0xf0 ) >> 4 )
-		) ^ 0xff );
+		my ($a,$b);
+
+		if ( length($px) < $x * 2 + $o_x + 2 ) {
+			print "\x00";
+		} else {	
+
+			my ($a,$b) = unpack('CC', substr($px,$x * 2 + $o_x,2));
+			print pack( 'C', (
+				( $a & 0xf0 )
+				|
+				( ( $b & 0xf0 ) >> 4 )
+			) ^ 0xff );
+
+		}
 
 	}
 
