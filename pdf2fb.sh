@@ -18,7 +18,7 @@ while true ; do
 
 ./pdfdraw -o page-%d.pgm -r $RES -b 1 -g -m -G $GAMMA $* "$pdf" $page
 echo $O_X $O_Y
-./pgm2fb.pl page-$page.pgm | nc 192.168.2.2 8888
+./pgm2fb.pl page-$page.pgm | nc 192.168.2.2 8888 || true
 
 key=`nc -l 8888`
 case "$key" in
