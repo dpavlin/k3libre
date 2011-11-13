@@ -1,8 +1,7 @@
 #!/bin/sh -xe
 
-pdf=~/Downloads/pdf/NanoBSD_and_ALIX_BSD_06_2011.pdf
-#pdf=/mnt/llin/rest/references/books/pdf/ggplot2-book.pdf
-pdf=~/Downloads/pdf/ebooksclub.org__The_Art_of_Electronics_2nd_Ed_.pdf
+pdf=$1
+shift
 page=$1
 shift
 
@@ -17,7 +16,7 @@ GAMMA=1
 
 while true ; do
 
-./pdfdraw -o page-%d.pgm -r $RES -b 1 -g -m -G $GAMMA $* $pdf $page
+./pdfdraw -o page-%d.pgm -r $RES -b 1 -g -m -G $GAMMA $* "$pdf" $page
 echo $O_X $O_Y
 ./pgm2fb.pl page-$page.pgm | tee fb | nc 192.168.2.2 8888
 
