@@ -4,30 +4,34 @@ use strict;
 
 my $path = shift @ARGV || die "usage: $0 /dev/fb0";
 
+my $size = -s $path;
+my ( $w, $h ) = ( 824, 1200 ); # DXG
+   ( $w, $h ) = ( 600, 800 ) if $size < $w * $h / 2;
+
 open(my $in, '<', $path) || die "$path: $!";
+warn "# reading $path $w * $h\n";
 
 sub gray {
 	my $b = shift;
-	return $b | $b << 4 ^ 0xff;
+	return $b << 4 ^ 0xff;
 }
 
 open(my $out, '>', "$path.pgm");
 
 print $out "P5
-824 1200
+$w $h
 255
 ";
 
 
-while(my $size = read($in, my $c, 300)) {
+while(my $size = read($in, my $c, $w / 2)) {
 
-	last if $size < 300;
+	last if $size < $w / 2;
 
 	foreach my $byte ( unpack 'C*', $c ) {
-		my $a = $byte & 0xf0 >> 4;
-		my $b = $byte & 0x0f;
+		my $a = ( $byte & 0xf0 ) >> 4;
+		my $b =   $byte & 0x0f;
 		print $out pack 'CC', gray($a), gray($b);
 	}
-	print STDERR tell($in)," $size\n";
 }
 
