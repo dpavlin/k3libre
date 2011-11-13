@@ -4,19 +4,29 @@ use strict;
 
 my $path = shift @ARGV || die "usage: $0 /dev/fb0";
 
-print "P5
+open(my $in, '<', $path) || die "$path: $!";
+
+sub gray {
+	my $b = shift;
+	return $b | $b << 4 ^ 0xff;
+}
+
+open(my $out, '>', "$path.pgm");
+
+print $out "P5
 824 1200
 255
 ";
 
-open(my $in, '<', $path) || die "$path: $!";
 
 while(my $size = read($in, my $c, 300)) {
 
+	last if $size < 300;
+
 	foreach my $byte ( unpack 'C*', $c ) {
-		my $a = $byte & 0xf0;
-		my $b = $byte & 0x0f << 4;
-		print pack 'CC', $a ^ 0xff, $b ^ 0xff;
+		my $a = $byte & 0xf0 >> 4;
+		my $b = $byte & 0x0f;
+		print $out pack 'CC', gray($a), gray($b);
 	}
 	print STDERR tell($in)," $size\n";
 }
