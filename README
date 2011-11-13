@@ -1,0 +1,28 @@
+Goal of this project is liberation of Kindle 3 (and older) devices, so users
+can do things for which they are not originally designed.
+
+Steps required to get root shell over usb networking and
+local terminal on your Kindle are described in:
+
+liberate-kindle.txt
+
+
+e-ink framebuffer
+
+Kindle's e-ink display is exposed as framebuffer /dev/fb0 under linux. For now,
+we have two tools to deal with it:
+
+  # create dump.fb0.pgm file from framebuffer data
+  fb2pgm.pl dump.fb0
+
+  # convert pgm page to framebuffer format
+  pgm2fb.pl data.pgm > data.fb0
+
+
+/opt/eink/scripts/diags script on Kindle is best documentation how to use e-ink
+
+
+For development and compiling binaries, I would recommend getting Debian lenny armel
+and running it under qemu using kernel, initrd and rootfs from:
+
+http://people.debian.org/~aurel32/qemu/armel/
