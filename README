@@ -22,6 +22,14 @@ we have two tools to deal with it:
 /opt/eink/scripts/diags script on Kindle is best documentation how to use e-ink
 
 
+Reseting Kinde
+
+When you get stuck in state where you are no longer running Amazon framework
+and you need to somehow connect to your kindle again, press and hold power button
+for 20 seconds. It's important to note that your Kindle should be disconnected
+from USB while you are doing it. Screen will blink white-black and it will re-boot.
+
+
 For development and compiling binaries, I would recommend getting Debian lenny armel
 and running it under qemu using kernel, initrd and rootfs from:
 
