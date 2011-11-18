@@ -55,3 +55,9 @@ $ ssh root@192.168.2.2
 # install myts
 # http://www.mobileread.com/forums/showthread.php?t=154500
 
+cp myts-6.zip /mnt/usb/customupdates/
+umount /mnt/usb/
+sudo eject /dev/sdb
+
+# Shift+Shift+I to install
+# Shift+T+T to start terminal
