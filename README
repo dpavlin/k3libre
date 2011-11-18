@@ -34,3 +34,10 @@ For development and compiling binaries, I would recommend getting Debian lenny a
 and running it under qemu using kernel, initrd and rootfs from:
 
 http://people.debian.org/~aurel32/qemu/armel/
+
+To run Debian armel under armhf kernel, you have to add following so apt-get will
+fetch armel packages on armhf architecture:
+
+dpavlin@ac100$ cat /etc/apt/apt.conf.d/00arch 
+APT::Architecture=armel;
+
