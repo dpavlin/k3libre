@@ -27,7 +27,8 @@ Reseting Kinde
 When you get stuck in state where you are no longer running Amazon framework
 and you need to somehow connect to your kindle again, press and hold power button
 for 20 seconds. It's important to note that your Kindle should be disconnected
-from USB while you are doing it. Screen will blink white-black and it will re-boot.
+from USB while you are doing it. Wait 5-10 seconds and screen will blink
+white-black-white and it will re-boot.
 
 
 For development and compiling binaries, I would recommend getting Debian lenny armel
