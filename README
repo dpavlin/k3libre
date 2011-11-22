@@ -21,6 +21,21 @@ we have two tools to deal with it:
 
 /opt/eink/scripts/diags script on Kindle is best documentation how to use e-ink
 
+  # example of eink refresh
+  echo 1 > /proc/eink_fb/update_display
+
+
+keyboard and fiveway
+
+You can see status of lock on keyboard and fiveway using:
+
+  [root@kindle test]# cat /proc/keypad /proc/fiveway 
+  keypad is unlocked
+  fiveway is unlocked
+
+  # example of keypad unlock
+  [root@kindle root]# echo unlock > /proc/keypad
+
 
 Reseting Kinde
 
