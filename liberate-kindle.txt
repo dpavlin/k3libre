@@ -1,5 +1,5 @@
 
-# Amazon software update
+# Amazon software update (only for k3 wifi!)
 
 mount /mnt/usb 
 cp Update_kindle_3.3_B008.bin /mnt/usb/
@@ -10,12 +10,18 @@ sudo eject /dev/sdb
 
 # update
 
+# to re-plug kindle as usb disk use following:
+sudo eject /dev/sdb
+sudo kpartx /dev/sdb
+
 unzip kindle-jailbreak-0.10.N.zip 
 vi README.txt 
 mount /mnt/usb 
 cp update_jailbreak_0.10.N_k3w-3.2.1_install.bin /mnt/usb/
 sudo umount /mnt/usb/
 sudo eject /dev/sdb
+
+# D006 error on Kindle DX graphite with 2.5.8 is normal
 
 # update
 
@@ -46,8 +52,13 @@ cat /mnt/usb/diagnostic_logs/device_info.txt
 ;debugOn
 ~usbNetwork
 
+`usbNetwork # for 2.5.8 only!
+
 $ sudo ifconfig usb0 192.168.2.1
 $ ssh root@192.168.2.2
+
+# this will back resolve your 192.168.2.1 IP address, and will
+# be much faster if you have 3G (and this Amazon DNS) off
 
 # install launchpad
 # http://www.mobileread.com/forums/showthread.php?t=97636
@@ -60,4 +71,6 @@ umount /mnt/usb/
 sudo eject /dev/sdb
 
 # Shift+Shift+I to install
+# Shift+Shift+Space to reload launchpad config
 # Shift+T+T to start terminal
+
