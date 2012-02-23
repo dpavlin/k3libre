@@ -46,6 +46,14 @@ from USB while you are doing it. Wait 5-10 seconds and screen will blink
 white-black-white and it will re-boot.
 
 
+Screen rotation from command line
+
+lipc-send-event -r 3 com.lab126.hal orientationUp
+lipc-send-event -r 3 com.lab126.hal orientationLeft
+lipc-send-event -r 3 com.lab126.hal orientationDown
+lipc-send-event -r 3 com.lab126.hal orientationRight
+
+
 For development and compiling binaries, I would recommend getting Debian lenny armel
 and running it under qemu using kernel, initrd and rootfs from:
 
