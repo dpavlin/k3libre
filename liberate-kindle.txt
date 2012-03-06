@@ -63,9 +63,14 @@ $ ssh root@192.168.2.2
 # install launchpad
 # http://www.mobileread.com/forums/showthread.php?t=97636
 
+cp update_launchpad_0.0.1c_dxg_install.bin /mnt/usb/
+sudo umount /mnt/usb
+
 # install myts
 # http://www.mobileread.com/forums/showthread.php?t=154500
 
+mount /mnt/usb
+mkdir /mnt/usb/customupdates/
 cp myts-6.zip /mnt/usb/customupdates/
 umount /mnt/usb/
 sudo eject /dev/sdb
