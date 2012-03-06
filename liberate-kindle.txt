@@ -72,10 +72,16 @@ sudo umount /mnt/usb
 mount /mnt/usb
 mkdir /mnt/usb/customupdates/
 cp myts-6.zip /mnt/usb/customupdates/
+
 umount /mnt/usb/
 sudo eject /dev/sdb
 
 # Shift+Shift+I to install
 # Shift+Shift+Space to reload launchpad config
 # Shift+T+T to start terminal
+
+# after installation, modify keyboard for DXG:
+# http://www.mobileread.com/forums/showpost.php?p=1830420&postcount=15
+
+cp myts/keydefs.ini /mnt/usb/myts/
 
