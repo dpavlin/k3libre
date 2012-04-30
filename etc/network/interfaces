@@ -1,0 +1,14 @@
+
+# example entry to automatically bring usb0 kindle interface
+
+# Kindle NAT using iptables require configuration on kindle side:
+
+# ip route add default via 192.168.2.1
+# echo nameserver 192.168.2.1 > /etc/resolv.conf
+
+allow-hotplug usb0
+iface usb0 inet static
+	address 192.168.2.1
+	netmask 255.255.255.0
+	post-up iptables -t nat -A POSTROUTING -s 192.168.2.0/255.255.255.0 -o wlan0 -j MASQUERADE
+
