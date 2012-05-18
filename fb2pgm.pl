@@ -2,11 +2,15 @@
 use warnings;
 use strict;
 
-my $path = shift @ARGV || die "usage: $0 /dev/fb0";
+my ($path,$landscape) = @ARGV;
+
+die "usage: $0 /dev/fb0 [landscape]" unless $path;
 
 my $size = -s $path;
 my ( $w, $h ) = ( 824, 1200 ); # DXG
    ( $w, $h ) = ( 600, 800 ) if $size < $w * $h / 2;
+
+( $h, $w ) = ( $w, $h ) if $landscape;
 
 open(my $in, '<', $path) || die "$path: $!";
 warn "# reading $path $w * $h\n";
