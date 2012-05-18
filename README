@@ -48,11 +48,16 @@ white-black-white and it will re-boot.
 
 Screen rotation from command line
 
-lipc-send-event -r 3 com.lab126.hal orientationUp
-lipc-send-event -r 3 com.lab126.hal orientationLeft
-lipc-send-event -r 3 com.lab126.hal orientationDown
-lipc-send-event -r 3 com.lab126.hal orientationRight
+  lipc-send-event -r 3 com.lab126.hal orientationUp
+  lipc-send-event -r 3 com.lab126.hal orientationLeft
+  lipc-send-event -r 3 com.lab126.hal orientationDown
+  lipc-send-event -r 3 com.lab126.hal orientationRight
 
+You can get current rotation using
+
+  cat /sys/module/eink_fb_hal_broads/parameters/bs_orientation
+
+It will return 0 for portrait and 1 for landscape orientation
 
 For development and compiling binaries, I would recommend getting Debian lenny armel
 and running it under qemu using kernel, initrd and rootfs from:
