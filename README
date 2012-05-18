@@ -59,13 +59,22 @@ You can get current rotation using
 
 It will return 0 for portrait and 1 for landscape orientation
 
-For development and compiling binaries, I would recommend getting Debian lenny armel
-and running it under qemu using kernel, initrd and rootfs from:
+
+Screen saver disable/enable
+
+  lipc-set-prop com.lab126.powerd preventScreenSaver 1
+  lipc-set-prop com.lab126.powerd preventScreenSaver 0
+
+
+Development
+
+For development and compiling binaries, I would recommend getting Debian
+lenny armel and running it under qemu using kernel, initrd and rootfs from:
 
 http://people.debian.org/~aurel32/qemu/armel/
 
-To run Debian armel under armhf kernel, you have to add following so apt-get will
-fetch armel packages on armhf architecture:
+To run Debian armel under armhf kernel, you have to add following so apt-get
+will fetch armel packages on armhf architecture:
 
 dpavlin@ac100$ cat /etc/apt/apt.conf.d/00arch 
 APT::Architecture=armel;
