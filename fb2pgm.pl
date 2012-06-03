@@ -39,3 +39,4 @@ while(my $size = read($in, my $c, $w / 2)) {
 	}
 }
 
+print "$path.pgm\n";
