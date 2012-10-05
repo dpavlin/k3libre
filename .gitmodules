@@ -1,0 +1,3 @@
+[submodule "KindleTool"]
+	path = KindleTool
+	url = git://github.com/yifanlu/KindleTool.git
