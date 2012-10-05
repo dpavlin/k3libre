@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Amazon Kindle firmware 4.0.1 root password tool</title>
+<link rel="icon" type="image/jpeg" href="kindle_32x32.jpg">
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<style>
+input, span { font-family: monospace; }
+th, td { padding: 5px 20px; }
+</style>
+<script src="md5.js"></script>
+<script>
+function calc() {
+	var serial = document.getElementById("serial").value + "\n";
+	if (serial == "\n") {
+		document.getElementById("rootpw").innerHTML = "?";
+		document.getElementById("rootpw2").innerHTML = "?";
+	} else {
+		var md5 = hex_md5(serial);
+		document.getElementById("rootpw").innerHTML = "fiona" + md5.substring(7,11);
+		document.getElementById("rootpw2").innerHTML = "fiona" + md5.substring(7,10);
+	}
+}
+</script>
+</head>
+<body>
+<h1>Amazon Kindle root password tool</h1>
+This page will tell you your Kindle 4's default root password.
+<p>
+Enter the settings page and look in the bottom right corner to determine your firmware version.
+You'll also see the serial number in the settings.<br>
+Enter your kindle serial number below and it will compute your password. <br>
+<em>It's all done locally in your browser using javascript, no information is transferred away from your computer.</em>
+</p>
+<noscript><p>This page will not work without javascript! Enable javascript in your browser.</p></noscript>
+
+
+<form onsubmit="calc()" action="kindle.html#">
+<fieldset>
+<legend>Kindle data</legend>
+Device serial number: <input id="serial" size="16" onkeyup="calc()"> (without spaces)
+<table>
+	<tr><th>firmware</th><th>root password</th></tr>
+	<tr><td>4.0</td><td><span>mario</span></td></tr>
+	<tr><td>4.0.1</td><td><span id="rootpw">?</span></td></tr>
+	<tr><td>2.x/3.x</td><td><span id="rootpw2">?</span></td></tr>
+</table>
+</fieldset>
+</form>
+<p>
+There is another login on most Kindles: User <span>framework</span> with password <span>mario</span>.
+</p>
+<p>
+I have received a report of a Kindle with 4.0 firmware that uses "fionaXXX" as password and a 4.0.1 firmware device with "mario" as password, so if one doesn't work, try the other.
+</p>
+<p>
+This script was converted from a little
+<a href="http://www.mobileread.com/forums/showthread.php?p=1873256">python script</a> to javascript.
+It uses a BSD-licensed MD5-Javascript library by Paul Johnston.
+</p>
+<p style="text-align: right; vertical-align: middle;">
+<a href="http://validator.w3.org/check?uri=referer" style="text-decoration: none; color: blue;">Valid <embed src="html5_logo_32.svg" type="image/svg+xml" /></a>
+</p>
+
+</body>
+</html>
