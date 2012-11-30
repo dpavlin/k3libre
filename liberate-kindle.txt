@@ -66,6 +66,11 @@ $ ssh root@192.168.2.2
 cp update_launchpad_0.0.1c_dxg_install.bin /mnt/usb/
 sudo umount /mnt/usb
 
+# install kite as alternative to launchpad
+# http://www.mobileread.com/forums/showthread.php?t=168270
+
+cp kite/update_kite_k3g-3.2.1_install.bin /mnt/usb/
+
 # install myts
 # http://www.mobileread.com/forums/showthread.php?t=154500
 
