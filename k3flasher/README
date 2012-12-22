@@ -1,0 +1,60 @@
+You need libusbx or libusb-1.0. Earlier versions of libusb were not tested
+and the Makefile isn't prepared for them.
+
+http://libusbx.sourceforge.net/
+
+Then just run "make".
+
+You will get a k3flasher binary. In order to use it, your device needs to
+be set to USB downloader mode. It will go into that mode upon system reset
+when the "Vol-" key is held down.
+
+As the device will drop out of that mode pretty soon if no communications
+took place, k3flasher will wait for a device. To make sure you will get a
+reliable connection, start by a simple command, which will put k3flasher
+into a waiting mode. Do not reset your device yet.
+
+---snip---
+root# ./k3flasher /some/where/mx35to2_mmc.bin info
+W: cannot find device (is it in USB loader mode? are you root?) - waiting for it..
+---snip---
+
+Each second, a new dot will appear. There is no timeout, so if you want
+to abort, hit CTRL-C.
+
+Now make a physical USB connection to your device and do the reset.
+Remember to keep the Vol- button pressed during reset.
+
+If your device's system is actually up and running, the preferred way to
+do a reset is by going through Menu -> Settings -> Menu -> Restart.
+
+If your device's system is bricked, hold Vol- and then shift and hold the
+power slider for at least 15 seconds. Then release the slider and keep
+the Vol- button pressed. After a maximum of 15 seconds, k3flasher should
+recognize the device.
+
+Now you can use the tools k3flasher provides. Run it without arguments
+to see what it can do.
+
+
+The NBD mode
+
+k3flasher knows how to speak a simple variant of the NBD protocol (network
+block device). By using the "nbd" command, you can bring k3flasher in that
+server mode. By default, it will listen on TCP localhost:12345 for
+connections. On the same machine you can then use "nbd-client" to connect
+a network block device node to k3flasher. Then the flash of your device
+will be accessible as a block device on the host machine. Notice that it
+is slow (about 100-200 kByte per second). You can then mount, read and
+write, fsck...
+
+root# ./k3flasher mx35to2_mmc.bin nbd
+...
+
+root# modprobe nbd max_part=10
+root# nbd-client localhost 12345 /dev/nbd0 -t 120
+
+...use devices...
+
+root# nbd-client -d /dev/nbd0
+
