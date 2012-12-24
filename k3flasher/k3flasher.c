@@ -599,12 +599,12 @@ fail:
 * \param filename the name of the file on host containing the data to write
 * \return 0 if successful
 */
-int flash_program(uint32_t address, char *filename, int done) {
+int flash_program(uint32_t address, char *filename, int done, int read_before_flash) {
 	int fd, err;
 	size_t reads;
 	FILE *image;
 	struct stat image_stat;
-	uint8_t *xmit_buf;
+	uint8_t *xmit_buf, *read_buf;
 	int cont;	/* flag that signals more data chunks to come */
 	int set_size = MAX_CHUNK; /* data to send for a single flash operation */
 
@@ -666,15 +666,29 @@ int flash_program(uint32_t address, char *filename, int done) {
 			goto fail;
 		}
 
-		if(flash_program_data(address + done, xmit_buf, reads, cont)) {
-			fprintf(stderr, "E: flashing data\n");
+		if( read_before_flash && flash_dump_data(address + done, set_size, &read_buf)) {
+			fprintf(stderr, "E: 0x%08jx read FAILED\n", (uintmax_t) address + done);
 			goto fail;
-
+		} else {
+			if( read_before_flash && memcmp(read_buf,xmit_buf,set_size) == 0) {
+				fprintf(stderr, "I: 0x%08jx verified\n", (uintmax_t) address + done);
+				free(read_buf);
+			} else {
+				if ( read_before_flash ) {
+					free(read_buf);
+					fprintf(stderr, "I: different block, read before flash disabled\n");
+					read_before_flash = 0;
+				}
+				if(flash_program_data(address + done, xmit_buf, reads, cont)) {
+					fprintf(stderr, "E: 0x%08jx flashing data\n", (uintmax_t) address + done );
+					goto fail;
+				}
+			}
 		}
 
 		done += reads;
 
-		fprintf(stderr, "I: offset 0x%08jx continue_address 0x%08jx %0.02f%%\n", (uintmax_t) done, (uintmax_t) address + done, (double) (done * 100 / image_stat.st_size));
+		fprintf(stderr, "I: offset 0x%08jx continue_address 0x%08jx %0.02f%%\n", (uintmax_t) done, (uintmax_t) address + done, (double) done * 100 / image_stat.st_size);
 
 	};
 
@@ -1102,6 +1116,7 @@ ramkernel_running:
 	} else if(!strcmp("program", argv[2])) {
 
 		uint32_t address, continue_address;
+		int read_before_flash = 1;
 
 		if(argc < 5) {
 			fprintf(stderr, "E: wrong syntax.\n");
@@ -1115,12 +1130,18 @@ ramkernel_running:
 		}
 
 		continue_address = address;
-		if (argc == 6) {
+		if (argc >= 6) {
 			continue_address = parse_address(argv[5]);
+			fprintf(stderr, "I: continue_address = 0x%08jx\n", (uintmax_t) continue_address);
+		}
+
+		if (argc >= 7) {
+			read_before_flash = strtol(argv[6], NULL, 0);
+			fprintf(stderr, "I: read_before_flash = %d\n", read_before_flash);
 		}
 
 		if(flash_init()) goto fail;
-		if(flash_program(address, argv[4], continue_address - address)) goto fail;
+		if(flash_program(address, argv[4], continue_address - address, read_before_flash)) goto fail;
 
 #ifdef NBD_SERVER
 	} else if(!strcmp("nbd", argv[2])) {
@@ -1172,7 +1193,7 @@ usage:
 		"\tand write it to <outfile>\n"
 		"\tIf file exists, it will continue dump from existing file size\n"
 		"\n"
-		"program <address> <image> [<continue_address>]\n"
+		"program <address> <image> [<continue_address> [<read_before_flash>]]\n"
 		"\twrite given image to flash at given address\n"
 		"\n"
 #ifdef NBD_SERVER
