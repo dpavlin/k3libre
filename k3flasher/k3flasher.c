@@ -475,8 +475,17 @@ int flash_dump(uint32_t address, uint32_t length, char *filename) {
 	int set_size = MAX_CHUNK;
 	unsigned int done = 0;
 	size_t write_size __attribute__((unused));
+	struct stat sb;
 
-	dump = fopen(filename, "wb");
+	if (stat(filename, &sb) == -1) {
+		dump = fopen(filename, "wb");
+	} else {
+		done = sb.st_size;
+		dump = fopen(filename, "ab");
+	}
+
+	fprintf(stderr, "I: dump file %s offset 0x%08x\n", filename, done);
+
 	if(NULL == dump) {
 		fprintf(stderr, "E: opening dump file: %s\n", strerror(errno));
 		return -1;
