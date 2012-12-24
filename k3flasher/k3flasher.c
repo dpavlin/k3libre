@@ -1152,6 +1152,7 @@ usage:
 		"dump <address> <length> <outfile>\n"
 		"\tread <length> bytes of flash memory, starting at <address>\n"
 		"\tand write it to <outfile>\n"
+		"\tIf file exists, it will continue dump from existing file size\n"
 		"\n"
 		"program <address> <image>\n"
 		"\twrite given image to flash at given address\n"
