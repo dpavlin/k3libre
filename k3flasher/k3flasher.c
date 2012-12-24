@@ -599,7 +599,7 @@ fail:
 * \param filename the name of the file on host containing the data to write
 * \return 0 if successful
 */
-int flash_program(uint32_t address, char *filename) {
+int flash_program(uint32_t address, char *filename, int done) {
 	int fd, err;
 	size_t reads;
 	FILE *image;
@@ -607,7 +607,8 @@ int flash_program(uint32_t address, char *filename) {
 	uint8_t *xmit_buf;
 	int cont;	/* flag that signals more data chunks to come */
 	int set_size = MAX_CHUNK; /* data to send for a single flash operation */
-	int done = 0;	/* counter for data that is processed (in bytes) */
+
+	fprintf(stderr, "D: flash_program: 0x%08x %s 0x%08x\n", address, filename, done);
 
 	xmit_buf = malloc(set_size);
 	if(NULL == xmit_buf) {
@@ -637,6 +638,14 @@ int flash_program(uint32_t address, char *filename) {
 		fprintf(stderr, "W: size is not a multiple of 512, remainder will be padded/overwritten\n");
 	}
 
+	err = fseek(image, done, SEEK_SET);
+	if(err) { 
+		fprintf(stderr, "E: seek to %d image error: %s\n", done, strerror(errno));
+		goto fail;
+	} else {
+		fprintf(stderr, "I: continue flashing at address 0x%08jx offset 0x%08jx\n", (uintmax_t) address, (uintmax_t) done);
+	}
+
 	/* actual flashing: */
 
 	fprintf(stderr, "I: flashing 0x%08jx (=%jd) bytes\n", (uintmax_t) image_stat.st_size, (intmax_t) image_stat.st_size);
@@ -660,9 +669,13 @@ int flash_program(uint32_t address, char *filename) {
 		if(flash_program_data(address + done, xmit_buf, reads, cont)) {
 			fprintf(stderr, "E: flashing data\n");
 			goto fail;
+
 		}
 
 		done += reads;
+
+		fprintf(stderr, "I: offset 0x%08jx continue_address 0x%08jx %0.02f%%\n", (uintmax_t) done, (uintmax_t) address + done, (double) (done * 100 / image_stat.st_size));
+
 	};
 
 	fclose(image);
@@ -1088,7 +1101,7 @@ ramkernel_running:
 
 	} else if(!strcmp("program", argv[2])) {
 
-		uint32_t address;
+		uint32_t address, continue_address;
 
 		if(argc < 5) {
 			fprintf(stderr, "E: wrong syntax.\n");
@@ -1101,8 +1114,13 @@ ramkernel_running:
 			goto fail;
 		}
 
+		continue_address = address;
+		if (argc == 6) {
+			continue_address = parse_address(argv[5]);
+		}
+
 		if(flash_init()) goto fail;
-		if(flash_program(address, argv[4])) goto fail;
+		if(flash_program(address, argv[4], continue_address - address)) goto fail;
 
 #ifdef NBD_SERVER
 	} else if(!strcmp("nbd", argv[2])) {
@@ -1154,7 +1172,7 @@ usage:
 		"\tand write it to <outfile>\n"
 		"\tIf file exists, it will continue dump from existing file size\n"
 		"\n"
-		"program <address> <image>\n"
+		"program <address> <image> [<continue_address>]\n"
 		"\twrite given image to flash at given address\n"
 		"\n"
 #ifdef NBD_SERVER
