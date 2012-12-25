@@ -58,3 +58,40 @@ root# nbd-client localhost 12345 /dev/nbd0 -t 120
 
 root# nbd-client -d /dev/nbd0
 
+To mount vfat partition (which is exported as usb disk) use:
+
+root# mount /dev/nbd0p4 /mnt/kindle/ -o offset=`expr 16 \* 512`
+
+This is required because last partition has partition inside it so that
+exported usb device would have partition informations, so we need to
+skip first 16 sectors when mouting vfat inside it.
+
+
+root# fdisk -l /dev/nbd0
+
+Disk /dev/nbd0: 4001 MB, 4001366016 bytes
+4 heads, 16 sectors/track, 122112 cylinders, total 7815168 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x489339d6
+
+     Device Boot      Start         End      Blocks   Id  System
+/dev/nbd0p1   *        7688     1338943      665628   83  Linux
+/dev/nbd0p2         1338944     1388095       24576   83  Linux
+/dev/nbd0p3         1388096     1404479        8192   83  Linux
+/dev/nbd0p4         1404480     7815167     3205344    b  W95 FAT32
+
+
+root# fdisk -l /dev/nbd0p4
+
+Disk /dev/nbd0p4: 3282 MB, 3282272256 bytes
+4 heads, 16 sectors/track, 100167 cylinders, total 6410688 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00000000
+
+       Device Boot      Start         End      Blocks   Id  System
+/dev/nbd0p4p1              16     6410687     3205336    b  W95 FAT32
+
