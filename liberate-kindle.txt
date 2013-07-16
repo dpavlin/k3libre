@@ -116,3 +116,13 @@ sudo eject /dev/sdb
 
 cp myts/keydefs.ini /mnt/usb/myts/
 
+
+# install kindlepdfreader
+# http://www.mobileread.com/forums/showthread.php?t=157047
+# download latest version from
+# https://github.com/koreader/kindlepdfviewer/wiki/Download
+
+unzip kindlepdfviewer-v2013.1-85-g01c9580.zip -d /mnt/usb/
+
+# press Shift+Shift+Space to reaload launchpad config or use KUAL
+
