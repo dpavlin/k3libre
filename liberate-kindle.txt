@@ -1,3 +1,17 @@
+This instructions is mix of different kindle version, so when installing
+.bin files please install version which is appropriate for your device.
+
+Here is mapping between two/three letter codes and versions:
+
+k2	B002
+k2i	B003
+dx	B004
+dxi	B005
+k3	B006
+k3	B008
+dxg	B009
+k3	B00A
+
 
 # Amazon software update (only for k3 wifi!)
 
