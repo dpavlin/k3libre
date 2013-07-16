@@ -66,10 +66,22 @@ $ ssh root@192.168.2.2
 cp update_launchpad_0.0.1c_dxg_install.bin /mnt/usb/
 sudo umount /mnt/usb
 
-# install kite as alternative to launchpad
-# http://www.mobileread.com/forums/showthread.php?t=168270
+# install KUAL as alternative to launchpad
+# http://www.mobileread.com/forums/showthread.php?t=203326
 
-cp kite/update_kite_k3g-3.2.1_install.bin /mnt/usb/
+unzip prerequisites-all-supported-devices.zip -d prerequisites-all-supported-devices
+cp prerequisites-all-supported-devices/update_dxi_B005_devcerts_install.bin /mnt/usb/
+sudo eject /dev/sdb
+# restart
+cp prerequisites-all-supported-devices/update_dxi_B005_kindlet_jailbreak_install.bin /mnt/usb/
+sudo eject /dev/sdb
+# restart
+unzip helper.zip -d /mnt/usb/
+unzip KUAL.V.2.0.zip -d KUAL.V.2.0
+cp KUAL.V.2.0/KindleLauncher-1.0.azw2 /mnt/usb
+sudo eject /dev/sdb
+# start KUAL
+
 
 # install myts
 # http://www.mobileread.com/forums/showthread.php?t=154500
