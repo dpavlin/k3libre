@@ -126,3 +126,43 @@ unzip kindlepdfviewer-v2013.1-85-g01c9580.zip -d /mnt/usb/
 
 # press Shift+Shift+Space to reaload launchpad config or use KUAL
 
+
+
+
+# Kindle paperwhite
+
+# jailbreak http://www.mobileread.com/forums/showthread.php?t=198446
+
+cp kpw_jb/jailbreak.sh kpw_jb/MOBI8_DEBUG /media/usb0/
+cp kpw_jb/jailbreak.mobi /media/usb0/documents/
+sudo eject /media/usb0/
+
+# select JailBreak document
+
+eject /dev/sdc # to remount kindle
+
+# optionaly install KUAL
+
+# only prerequisite not installed by jailbreak
+cp prerequisites-all-supported-devices/update_k5_ALL_PW_ALL_kindlet_jailbreak_install.bin /media/usb0/
+cp KUAL.V.2.0/KindleLauncher-2.0.azw2 /media/usb0/documents/
+sudo eject /media/usb0/
+
+# Settings > Update Your Kindle
+
+# select KUAL
+
+# download latest koreader
+# https://github.com/koreader/koreader/wiki/Download
+
+unzip /tmp/koreader-v2013.03-409-g0d421af.zip -d /media/usb0/
+
+# download kpvbooklet
+# https://github.com/koreader/kpvbooklet/wiki
+
+unzip /tmp/kindle-kpvbooklet-0.5.0.zip -d kindle-kpvbooklet-0.5.0
+cp kindle-kpvbooklet-0.5.0/update_kpvbooklet_0.5.0_install.bin /media/usb0/
+sudo eject /media/usb0/
+
+# Settings > Update Your Kindle
+
