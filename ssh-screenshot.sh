@@ -8,4 +8,4 @@ ssh root@192.168.2.2 dd if=/dev/fb0 > $name.fb
 
 ls -al $name.fb
 
-./fb2pgm.pl $name.fb $landscape && display $name.fb.pgm
+./fb2pgm.pl $name.fb $landscape && display $name.fb.pgm || convert $name.fb.pgm $name.fb.png
