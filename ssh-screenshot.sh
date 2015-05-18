@@ -4,7 +4,7 @@ name=$1
 test -z "$name" && name=/tmp/kindle
 
 landscape=`ssh root@192.168.2.2 cat /sys/module/eink_fb_hal_broads/parameters/bs_orientation`
-ssh root@k dd if=/dev/fb0 > $name.fb
+ssh root@192.168.2.2 dd if=/dev/fb0 > $name.fb
 
 ls -al $name.fb
 
