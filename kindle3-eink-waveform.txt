@@ -1,0 +1,28 @@
+https://www.mobileread.com/forums/showthread.php?t=218927
+
+Somewhat common problem with Kindle 3 is missing grays on eink screen. Usually, reason for this is
+missing waveform file to drive eink which results in follwoing dmesg errors:
+
+eink_fb: W log_battery_temperature:def:temp=84F:from battery
+eink_fb: W bs_cmd_ld_img_upd_data_which:def:temp=35C:from pmic, outside of ideal range of 15C to 32C
+eink_fb: W bs_cmd_ld_img_upd_data_which:def:temp=29C:from battery
+
+Examining kernel /proc and /sys files we can see that display is using internal waveform and that it doesn't have
+panel id.
+
+[root@kindle root]# cat /proc/eink_fb/waveform_version 
+V110_B059_60_WJ0105_D (M06, S/N 804, 85Hz)
+
+[root@kindle root]# cat /sys/devices/platform/eink_fb.0/panel_id 
+????_???_??_???
+
+In this case, it's eeprom on eink flat-flex cable which died. Same thing also happends when you buy replacement
+screens and receive one without eeprom on it.
+
+Reading through Amazon's kernel source, I found that eink module tries to load isis.wbf waveform file if it exists.
+Since I didn't know which one to use, I randomly picked latest one:
+
+[root@kindle root]# cd /var/local/eink/
+[root@kindle eink]# cp V220_004_60_M12 isis.wbf
+
+
