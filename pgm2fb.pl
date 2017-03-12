@@ -24,7 +24,7 @@ seek($in, $w * $o_y, 1) if $o_y;
 
 while(my $size = read($in, my $px, $w)) {
 
-	foreach my $x ( 0 .. 824 / 2 - 1 ) {
+	foreach my $x ( 0 .. $w / 2 - 1 ) {
 
 		my ($a,$b);
 
@@ -44,6 +44,6 @@ while(my $size = read($in, my $px, $w)) {
 	}
 
 	$y++;
-	last if $y == 1200;
+	last if $y == $h;
 }
 
