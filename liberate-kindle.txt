@@ -74,6 +74,8 @@ $ ssh root@192.168.2.2
 # this will back resolve your 192.168.2.1 IP address, and will
 # be much faster if you have 3G (and this Amazon DNS) off
 
+# you can add your ssh public key to /mnt/us/usbnet/etc/authorized_keys
+
 # install launchpad
 # http://www.mobileread.com/forums/showthread.php?t=97636
 
