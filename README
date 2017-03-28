@@ -66,6 +66,18 @@ Screen saver disable/enable
   lipc-set-prop com.lab126.powerd preventScreenSaver 0
 
 
+Wifi on/off
+
+This seems to move from version to versiion, so here is way to find it out:
+
+	[root@kindle root]# lipc-probe -l | grep wifi
+	com.lab126.wifid
+	[root@kindle root]# lipc-probe com.lab126.wifid | grep enable
+	rw      Int     enable
+	[root@kindle root]# lipc-get-prop com.lab126.wifid enable
+	1
+	[root@kindle root]# lipc-set-prop com.lab126.wifid enable 1
+
 Development
 
 For development and compiling binaries, I would recommend getting Debian
